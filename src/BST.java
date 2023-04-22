@@ -47,33 +47,102 @@ public class BST {
      * @return true if val is in the tree, false otherwise
      */
     public boolean search(int val) {
-        // TODO: Complete the search function
+        return findVal(val, root);
+    }
+
+    /**
+     * Recursively searches if a value is in the tree
+     */
+    public boolean findVal(int val, BSTNode node){
+        if (node.getVal() == val){
+            return true;
+        }
+        /**
+         * Lower numbers are on the left of the tree
+         * */
+        if (node.getLeft() != null && val < node.getVal()){
+            return findVal(val, node.getLeft());
+        }
+        /**
+         * Higher numbers are on the right of the tree
+         * */
+        else if (node.getRight() != null && val > node.getVal()){
+            return findVal(val, node.getRight());
+        }
         return false;
     }
+
 
     /**
      * @return ArrayList of BSTNodes in inorder
      */
     public ArrayList<BSTNode> getInorder() {
-        // TODO: Complete inorder traversal
-        return null;
+        ArrayList<BSTNode> inorder = new ArrayList<BSTNode>();
+        findInorder(root, inorder);
+        return inorder;
     }
 
+    /**
+     * Recursively puts the nodes in order
+     * of lowest to highers value
+     * @param inorder, Arraylist which holds the order
+     */
+    public void findInorder(BSTNode node, ArrayList<BSTNode> inorder) {
+        if (node.getLeft() != null){
+            findInorder(node.getLeft(), inorder);
+        }
+        inorder.add(node);
+        if (node.getRight() != null){
+            findInorder(node.getRight(), inorder);
+        }
+    }
     /**
      * @return ArrayList of BSTNodes in preorder
      */
     public ArrayList<BSTNode> getPreorder() {
-        // TODO: Complete preorder traversal
-        return null;
+        ArrayList<BSTNode> preorder = new ArrayList<BSTNode>();
+        findPreorder(root, preorder);
+        return preorder;
     }
 
     /**
+     * Recursively puts the nodes in preorder
+     * @param preorder, Arraylist of nodes in proper preorder
+     * Goes in the order Root, Left, Right
+     */
+    public void findPreorder(BSTNode node, ArrayList<BSTNode> preorder) {
+        preorder.add(node);
+        if (node.getLeft() != null){
+            findPreorder(node.getLeft(), preorder);
+        }
+        if (node.getRight() != null){
+            findPreorder(node.getRight(), preorder);
+        }
+    }
+    /**
      * @return ArrayList of BSTNodes in postorder
+     * Goes in the order Left, Right, Root
      */
     public ArrayList<BSTNode> getPostorder() {
-        // TODO: Complete postorder traversal
-        return null;
+        ArrayList<BSTNode> postorder = new ArrayList<BSTNode>();
+        findPostorder(root, postorder);
+        return postorder;
     }
+
+    /**
+     * Recursively put the nodes in postorder
+     * @param postorder, Arraylist holding the node order
+     */
+    public void findPostorder(BSTNode node, ArrayList<BSTNode> postorder) {
+        if (node.getLeft() != null){
+            findPostorder(node.getLeft(), postorder);
+        }
+        if (node.getRight() != null){
+            findPostorder(node.getRight(), postorder);
+        }
+        postorder.add(node);
+    }
+
 
     /**
      * Inserts the given integer value to the tree
@@ -82,7 +151,40 @@ public class BST {
      * @param val The value ot insert
      */
     public void insert(int val) {
-        // TODO: Complete insert
+        findLocation(root, val);
+    }
+
+    /**
+     * Insets a node in its correct spot in the tree
+     * @param val of the node to be inserted
+     */
+    public void findLocation(BSTNode node, int val){
+        /**
+         * Val lower than the current
+         * node go to left side of tree
+         */
+        if (val < node.getVal()){
+            if (node.getLeft() != null){
+                findLocation(node.getLeft(), val);
+            }
+            else{
+                BSTNode newNode = new BSTNode(val);
+                node.setLeft(newNode);
+            }
+        }
+        /**
+         * Val higher than the current
+         * node go to right side of tree
+         */
+        else if (val > node.getVal()) {
+            if (node.getRight() != null) {
+                findLocation(node.getRight(), val);
+            }
+            else {
+                BSTNode newNode = new BSTNode(val);
+                node.setRight(newNode);
+            }
+        }
     }
 
     /**
@@ -91,7 +193,6 @@ public class BST {
      * @return true if valid false otherwise
      */
     public boolean isValidBST() {
-        // TODO: Optional Challenge!
         return false;
     }
 
